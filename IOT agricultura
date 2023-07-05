@@ -1,0 +1,62 @@
+import requests
+import random
+import time
+
+# Chave de API do ThingSpeak
+api_key = 'SUA_CHAVE_DE_API_DO_THINGSPEAK'
+
+# URL do endpoint do ThingSpeak
+url = f'https://api.thingspeak.com/update?api_key={api_key}'
+
+# Função para gerar valores simulados dos sensores
+def gerar_valores_sensores():
+    temperatura = round(random.uniform(20, 30), 2)
+    umidade = round(random.uniform(50, 80), 2)
+    luminosidade = random.randint(0, 1000)
+    return temperatura, umidade, luminosidade
+
+# Função para acionar o sistema de resfriamento
+def acionar_resfriamento():
+    print('Temperatura muito alta. Acionando sistema de resfriamento...')
+    # Código para acionar o sistema de resfriamento aqui
+
+# Função para acionar o sistema de irrigação
+def acionar_irrigacao():
+    print('Umidade baixa. Acionando sistema de irrigação...')
+    # Código para acionar o sistema de irrigação aqui
+
+while True:
+    try:
+        # Gerar valores simulados dos sensores
+        temperatura, umidade, luminosidade = gerar_valores_sensores()
+
+        # Verificar se os valores estão dentro das faixas aceitáveis
+        if temperatura < 25 or temperatura > 28:
+            print(f'Temperatura fora da faixa aceitável: {temperatura}')
+            acionar_resfriamento()
+
+        if umidade < 60 or umidade > 70:
+            print(f'Umidade fora da faixa aceitável: {umidade}')
+            acionar_irrigacao()
+
+        # Criar o payload dos dados a serem enviados
+        payload = {
+            'field1': temperatura,
+            'field2': umidade,
+            'field3': luminosidade
+        }
+
+        # Enviar os dados para o ThingSpeak
+        response = requests.post(url, params=payload)
+
+        # Verificar o código de resposta da solicitação
+        if response.status_code == 200:
+            print('Dados enviados com sucesso para o ThingSpeak!')
+        else:
+            print('Erro ao enviar os dados para o ThingSpeak.')
+
+    except requests.exceptions.RequestException as e:
+        print(f'Erro de conexão: {e}')
+
+    # Aguardar 15 segundos antes de enviar o próximo conjunto de dados
+    time.sleep(15)
