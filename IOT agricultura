@@ -3,7 +3,7 @@ import random
 import time
 
 # Chave de API do ThingSpeak
-api_key = 'SUA_CHAVE_DE_API_DO_THINGSPEAK'
+api_key = 'DTN77YM3EFJ0UAJ7'
 
 # URL do endpoint do ThingSpeak
 url = f'https://api.thingspeak.com/update?api_key={api_key}'
@@ -41,9 +41,9 @@ while True:
 
         # Criar o payload dos dados a serem enviados
         payload = {
-            'field1': temperatura,
-            'field2': umidade,
-            'field3': luminosidade
+            'Temperatura': temperatura,
+            'Umidade': umidade,
+            'Luminosidade': luminosidade
         }
 
         # Enviar os dados para o ThingSpeak
